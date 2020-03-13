@@ -8,6 +8,11 @@ public class ConcurrentOutput {
         Thread second = new Thread(new SecondThread());
         first.start();
         second.start();
+        Runnable third = new SecondThread();
+        third.run();
+        new Thread(third).start();
+        Thread fourth = new AnotherThread();
+        fourth.start();
         System.out.println(Thread.currentThread().getName());
     }
 
@@ -18,6 +23,13 @@ public class ConcurrentOutput {
         }
 
         void print() {
+            System.out.println(Thread.currentThread().getName());
+        }
+    }
+
+    static class AnotherThread extends Thread {
+        @Override
+        public void run() {
             System.out.println(Thread.currentThread().getName());
         }
     }
