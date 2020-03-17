@@ -13,11 +13,19 @@ public class SimpleBlockingQueueTest {
         final SimpleBlockingQueue queue = new SimpleBlockingQueue<Integer>();
         final List<Integer> result = new ArrayList<>();
         Thread thread1 = new Thread(() -> {
-            result.add((Integer) queue.poll());
+            try {
+                result.add((Integer) queue.poll());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
         result.add(1);
         Thread thread2 = new Thread(() -> {
-            queue.offer(2);
+            try {
+                queue.offer(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
         thread1.start();
         thread2.start();

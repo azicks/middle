@@ -12,25 +12,17 @@ public class SimpleBlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
     public static final int MAX_SIZE = 20;
 
-    public synchronized void offer(T value) {
+    public synchronized void offer(T value) throws InterruptedException {
         while (queue.size() == MAX_SIZE) {
-            try {
                 wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
         notify();
         queue.add(value);
     }
 
-    public synchronized T poll() {
+    public synchronized T poll() throws InterruptedException {
         while (queue.size() == 0) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait();
         }
         T result = queue.poll();
         notify();
