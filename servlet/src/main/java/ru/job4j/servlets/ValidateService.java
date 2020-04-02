@@ -22,6 +22,10 @@ public class ValidateService {
         return store.findAll();
     }
 
+    public User getUser(int id) {
+        return store.findById(id);
+    }
+
     public boolean dispatch(Map<String, String[]> parameters) {
         String[] action = parameters.get("action");
         if (action == null || dispatch.get(action[0]) == null) {

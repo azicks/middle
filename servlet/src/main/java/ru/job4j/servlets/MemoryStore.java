@@ -6,10 +6,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class MemoryStore implements Store {
     private static final MemoryStore instance = new MemoryStore();
     private final List<User> users = new CopyOnWriteArrayList<>();
-    private volatile int maxId = 0;
+    private volatile int maxId = 1;
 
     private MemoryStore() {
-
+        add(new User("User1","Login1","email@email.com"));
+        add(new User("User2","Login2","email@email.com"));
+        add(new User("User3","Login3","email@email.com"));
     }
 
     public static MemoryStore getInstance() {

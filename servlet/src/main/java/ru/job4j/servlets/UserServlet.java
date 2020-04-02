@@ -20,8 +20,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            if (service.dispatch(req.getParameterMap())) {
-            doGet(req, resp);
-        }
+        service.dispatch(req.getParameterMap());
+        resp.sendRedirect("/list");
     }
 }
