@@ -17,8 +17,9 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        resp.setContentType ("text/html; charset=UTF-8");
+        PrintWriter writer = resp.getWriter();
+        resp.setCharacterEncoding ("UTF-8");
         String action = req.getParameter("action");
         String id = req.getParameter("id");
         if (id != null && !id.isEmpty()) {

@@ -12,8 +12,9 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        resp.setContentType ("text/html; charset=UTF-8");
+        PrintWriter writer = resp.getWriter();
+        resp.setCharacterEncoding ("UTF-8");
         StringBuilder body = new StringBuilder();
         StringBuilder rows = new StringBuilder();
         for (User u : service.getUsers()) {
