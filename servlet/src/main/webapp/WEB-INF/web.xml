@@ -28,7 +28,7 @@
 
   <servlet>
     <servlet-name>UsersServlet</servlet-name>
-    <servlet-class>ru.job4j.servlets.UsersServlet</servlet-class>
+    <jsp-file>/list.jsp</jsp-file>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
@@ -38,7 +38,7 @@
 
   <servlet>
     <servlet-name>UserCreateServlet</servlet-name>
-    <servlet-class>ru.job4j.servlets.UserCreateServlet</servlet-class>
+    <jsp-file>/create.jsp</jsp-file>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
@@ -48,7 +48,7 @@
 
   <servlet>
     <servlet-name>UserUpdateServlet</servlet-name>
-    <servlet-class>ru.job4j.servlets.UserUpdateServlet</servlet-class>
+    <jsp-file>/edit.jsp</jsp-file>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
