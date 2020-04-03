@@ -2,16 +2,17 @@ package ru.job4j.servlets;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryStore implements Store {
     private static final MemoryStore instance = new MemoryStore();
     private final List<User> users = new CopyOnWriteArrayList<>();
-    private volatile int maxId = 1;
+    private AtomicInteger maxId = new AtomicInteger(1);
 
     private MemoryStore() {
-        add(new User("User1","Login1","email@email.com"));
-        add(new User("User2","Login2","email@email.com"));
-        add(new User("User3","Login3","email@email.com"));
+        add(new User("User1", "Login1", "email@email.com"));
+        add(new User("User2", "Login2", "email@email.com"));
+        add(new User("User3", "Login3", "email@email.com"));
     }
 
     public static MemoryStore getInstance() {
@@ -20,7 +21,7 @@ public class MemoryStore implements Store {
 
     @Override
     public synchronized boolean add(User u) {
-        u.setId(maxId++);
+        u.setId(maxId.getAndIncrement());
         return users.add(u);
     }
 

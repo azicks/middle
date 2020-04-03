@@ -15,32 +15,31 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType ("text/html; charset=UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
         PrintWriter writer = resp.getWriter();
-        resp.setCharacterEncoding ("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         writer.append(editForm());
         writer.flush();
     }
 
     private String editForm() {
         StringBuilder html = new StringBuilder();
-        html.append("<!DOCTYPE html>" +
-                "<html lang=\"en\">" +
-                "<head>" +
-                "    <meta charset=\"UTF-8\">" +
-                "    <title>Create user</title>" +
-                "</head>");
-        html.append(
-                "<body>" +
-                        "<form action=\"/dispatch\" method=\"post\">" +
-                        "<b><p>Create new user: </p></b>" +
-                        "<input type=\"text\" name=\"name\" \">" +
-                        "<input type=\"text\" name=\"login\" \">" +
-                        "<input type=\"text\" name=\"email\" \">" +
-                        "<button name=\"action\" value=\"add\" type=\"submit\">Ok</button>" +
-                        "</form>\n" +
-                        "</body>\n" +
-                        "</html>");
+        html.append("<!DOCTYPE html>"
+                + "<html lang=\"en\">"
+                + "<head>"
+                + "<meta charset=\"UTF-8\">"
+                + "<title>Create user</title>"
+                + "</head>");
+        html.append("<body>"
+                + "<form action=\"/dispatch\" method=\"post\">"
+                + "<b><p>Create new user: </p></b>"
+                + "<input type=\"text\" name=\"name\" \">"
+                + "<input type=\"text\" name=\"login\" \">"
+                + "<input type=\"text\" name=\"email\" \">"
+                + "<button name=\"action\" value=\"add\" type=\"submit\">Ok</button>"
+                + "</form>\n"
+                + "</body>\n"
+                + "</html>");
         return html.toString();
     }
 }

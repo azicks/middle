@@ -12,9 +12,9 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType ("text/html; charset=UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
         PrintWriter writer = resp.getWriter();
-        resp.setCharacterEncoding ("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         StringBuilder body = new StringBuilder();
         StringBuilder rows = new StringBuilder();
         for (User u : service.getUsers()) {
@@ -25,12 +25,11 @@ public class UsersServlet extends HttpServlet {
                     .append("<td>" + "Email: " + u.getEmail() + "</td>")
                     .append("<td>" + "Created: " + u.getCreateDate() + "</td>")
                     .append("<td>")
-                    .append("        <form action=\"/edit\" method=\"post\">" +
-                            "            <input type=\"hidden\" name=\"id\" value=\"" + u.getId() + "\"/>" +
-                            "            <input type=\"submit\" value=\"Edit\" name=\"action\">" +
-                            "            <input type=\"submit\" value=\"Remove\" name=\"action\">" +
-                            "        </form>")
-
+                    .append("<form action=\"/edit\" method=\"post\">"
+                            + "<input type=\"hidden\" name=\"id\" value=\"" + u.getId() + "\"/>"
+                            + "<input type=\"submit\" value=\"Edit\" name=\"action\">"
+                            + "<input type=\"submit\" value=\"Remove\" name=\"action\">"
+                            + "</form>")
                     .append("</td>")
                     .append("</tr>");
         }
@@ -40,19 +39,19 @@ public class UsersServlet extends HttpServlet {
                     .append(rows)
                     .append("</table>");
         }
-        body.append("<br><form action=\"/create\" method=\"post\">\n" +
-                "<input type=\"submit\" value=\"Add new user\">\n" +
-                "</form>");
-        writer.append("<!DOCTYPE html>" +
-                "<html lang=\"en\">" +
-                "<head>" +
-                "    <meta charset=\"UTF-8\">" +
-                "    <title>Users list</title>" +
-                "</head>" +
-                "<body>" +
-                body.toString() +
-                "</body>" +
-                "</html>");
+        body.append("<br><form action=\"/create\" method=\"post\">\n"
+                + "<input type=\"submit\" value=\"Add new user\">\n"
+                + "</form>");
+        writer.append("<!DOCTYPE html>"
+                + "<html lang=\"en\">"
+                + "<head>"
+                + "<meta charset=\"UTF-8\">"
+                + "<title>Users list</title>"
+                + "</head>"
+                + "<body>"
+                + body.toString()
+                + "</body>"
+                + "</html>");
         writer.flush();
     }
 

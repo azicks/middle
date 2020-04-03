@@ -1,6 +1,7 @@
 package ru.job4j.servlets;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class User {
     private int id;
@@ -56,12 +57,33 @@ public class User {
         return createDate;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return String.format("User (id = %d) %s, login = %s, email = %s, created at %s", id, name, login, email, createDate);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id
+                && name.equals(user.name)
+                && Objects.equals(login, user.login)
+                && Objects.equals(email, user.email)
+                && createDate.equals(user.createDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, login, email, createDate);
     }
 }
