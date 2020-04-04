@@ -49,7 +49,7 @@ public class DBStore implements Store {
             int userId = insertedUser.getInt("id");
             u.setId(userId);
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
             return false;
         }
         log.trace(String.format("%s added", u));
@@ -71,7 +71,7 @@ public class DBStore implements Store {
                 result = true;
             }
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
         }
         log.trace(String.format("%s updated", u));
         return result;
@@ -86,7 +86,7 @@ public class DBStore implements Store {
             int affectedRows = pst.executeUpdate();
             result = affectedRows > 0;
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
         }
         log.trace(String.format("User with id %d removed", id));
         return result;
@@ -97,7 +97,7 @@ public class DBStore implements Store {
         List<User> result = new ArrayList<>();
         try (Connection connection = source.getConnection();
              Statement st = connection.createStatement()) {
-            ResultSet users = st.executeQuery("SELECT * FROM users");
+            ResultSet users = st.executeQuery("SELECT * FROM users ORDER BY id");
             while (users.next()) {
                 User user = new User(
                         users.getInt("id"),
@@ -108,7 +108,7 @@ public class DBStore implements Store {
                 result.add(user);
             }
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -129,7 +129,7 @@ public class DBStore implements Store {
                         users.getTimestamp("created"));
             }
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
         }
         return user;
     }
