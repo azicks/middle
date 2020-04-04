@@ -8,7 +8,7 @@ import java.util.function.Function;
 public class ValidateService {
     private static final ValidateService instance = new ValidateService();
     private final Map<String, Function<Map<String, String[]>, Boolean>> dispatch = new HashMap<>();
-    private final Store store = MemoryStore.getInstance();
+    private final Store store = DBStore.getInstance();
 
     private ValidateService() {
         init();

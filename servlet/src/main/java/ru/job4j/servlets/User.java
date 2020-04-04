@@ -1,5 +1,6 @@
 package ru.job4j.servlets;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ public class User {
     private String name;
     private String login;
     private String email;
-    private Date createDate;
+    private Timestamp createDate;
 
     public void setName(String name) {
         this.name = name;
@@ -27,14 +28,22 @@ public class User {
         this.name = name;
         this.login = login;
         this.email = email;
-        this.createDate = new Date();
+        this.createDate = new Timestamp(new Date().getTime());
+    }
+
+    public User(int id, String name, String login, String email, Timestamp created) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = created;
     }
 
     public User(String name, String login, String email) {
         this.name = name;
         this.login = login;
         this.email = email;
-        this.createDate = new Date();
+        this.createDate = new Timestamp(new Date().getTime());
     }
 
     public int getId() {
@@ -53,7 +62,7 @@ public class User {
         return email;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 

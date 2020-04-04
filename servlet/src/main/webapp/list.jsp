@@ -24,7 +24,7 @@
         </td>
         <td>Email: <%=u.getEmail()%>
         </td>
-        <td>Created: <%=dateFormat.format(u.getCreateDate())%>
+        <td>Created: <%=u.getCreateDate()%>
         </td>
         <td>
             <form action="edit" method="post">
