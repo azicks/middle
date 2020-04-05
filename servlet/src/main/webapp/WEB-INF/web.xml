@@ -6,53 +6,23 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-  <display-name>Servlet application</display-name>
-  <servlet>
-    <servlet-name>EchoServlet</servlet-name>
-    <servlet-class>ru.job4j.servlets.EchoServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>EchoServlet</servlet-name>
-    <url-pattern>/echo</url-pattern>
-  </servlet-mapping>
+    <display-name>Servlet application</display-name>
+    <servlet>
+        <servlet-name>EchoServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.EchoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EchoServlet</servlet-name>
+        <url-pattern>/echo</url-pattern>
+    </servlet-mapping>
 
-  <servlet>
-    <servlet-name>UserServlet</servlet-name>
-    <servlet-class>ru.job4j.servlets.UserServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/dispatch</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UsersServlet</servlet-name>
-    <jsp-file>/list.jsp</jsp-file>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UsersServlet</servlet-name>
-    <url-pattern>/list</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UserCreateServlet</servlet-name>
-    <jsp-file>/create.jsp</jsp-file>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UserCreateServlet</servlet-name>
-    <url-pattern>/create</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UserUpdateServlet</servlet-name>
-    <jsp-file>/edit.jsp</jsp-file>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UserUpdateServlet</servlet-name>
-    <url-pattern>/edit</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>UsersController</servlet-name>
+        <servlet-class>ru.job4j.servlets.UsersController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UsersController</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>

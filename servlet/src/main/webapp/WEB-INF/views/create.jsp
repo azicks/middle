@@ -6,7 +6,7 @@
     <title>Create user</title>
 </head>
 <body>
-<form action="dispatch" method="post">
+<form method="post">
     <b><p>Create new user: </p></b>
     <div>
         <label>Name: <input type="text" name="name"></label>
