@@ -17,5 +17,10 @@
             <column name="created" type="timestamp"/>
         </createTable>
     </changeSet>
+    <changeSet id="add-column-image-1" author="me">
+        <addColumn tableName="users">
+            <column name="image" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

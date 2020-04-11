@@ -1,5 +1,7 @@
 package ru.job4j.servlets;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
@@ -9,6 +11,7 @@ public class User {
     private String name;
     private String login;
     private String email;
+    private String imagePath;
     private Timestamp createDate;
 
     public void setName(String name) {
@@ -31,18 +34,20 @@ public class User {
         this.createDate = new Timestamp(new Date().getTime());
     }
 
-    public User(int id, String name, String login, String email, Timestamp created) {
+    public User(int id, String name, String login, String email, String imagePath, Timestamp created) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.email = email;
+        this.imagePath = imagePath;
         this.createDate = created;
     }
 
-    public User(String name, String login, String email) {
+    public User(String name, String login, String email, String imagePath) {
         this.name = name;
         this.login = login;
         this.email = email;
+        this.imagePath = imagePath;
         this.createDate = new Timestamp(new Date().getTime());
     }
 
@@ -60,6 +65,14 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public String getImageFile() {
+        return FilenameUtils.getName(imagePath);
     }
 
     public Timestamp getCreateDate() {

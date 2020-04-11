@@ -35,25 +35,27 @@ public class DBStore implements Store {
     }
 
     @Override
-    public boolean add(User u) {
+    public long add(User u) {
+        int userId = -1;
         try (Connection connection = source.getConnection();
              PreparedStatement pst = connection.prepareStatement(
-                     "insert into users (name, login, email, created) values (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                     "insert into users (name, login, email, image, created) values (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, u.getName());
             pst.setString(2, u.getLogin());
             pst.setString(3, u.getEmail());
-            pst.setTimestamp(4, u.getCreateDate());
+            pst.setString(4, u.getImagePath());
+            pst.setTimestamp(5, u.getCreateDate());
             pst.executeUpdate();
             ResultSet insertedUser = pst.getGeneratedKeys();
             insertedUser.next();
-            int userId = insertedUser.getInt("id");
+            userId = insertedUser.getInt("id");
             u.setId(userId);
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
-            return false;
+            return -1;
         }
         log.trace(String.format("%s added", u));
-        return true;
+        return userId;
     }
 
     @Override
@@ -104,6 +106,7 @@ public class DBStore implements Store {
                         users.getString("name"),
                         users.getString("login"),
                         users.getString("email"),
+                        users.getString("image"),
                         users.getTimestamp("created"));
                 result.add(user);
             }
@@ -126,6 +129,7 @@ public class DBStore implements Store {
                         users.getString("name"),
                         users.getString("login"),
                         users.getString("email"),
+                        users.getString("image"),
                         users.getTimestamp("created"));
             }
         } catch (SQLException e) {

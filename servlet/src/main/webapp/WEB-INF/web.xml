@@ -25,4 +25,14 @@
         <servlet-name>UsersController</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreateUserController</servlet-name>
+        <servlet-class>ru.job4j.servlets.CreateUserController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateUserController</servlet-name>
+        <url-pattern>/create</url-pattern>
+    </servlet-mapping>
 </web-app>

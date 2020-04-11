@@ -6,7 +6,7 @@
     <title>Create user</title>
 </head>
 <body>
-<form method="post">
+<form method="post" action="create" enctype="multipart/form-data">
     <b><p>Create new user: </p></b>
     <div>
         <label>Name: <input type="text" name="name"></label>
@@ -17,7 +17,12 @@
     <div>
         <label>Email: <input type="text" name="email"></label>
     </div>
-    <button name="action" value="add" type="submit">Ok</button>
+    <div>
+        Add image for user:<br>
+        <input type="file" name="image" accept="image/*">
+    </div>
+    <br>
+    <button name="action" value="add" type="submit">Create user</button>
 </form>
 </body>
 </html>

@@ -10,9 +10,9 @@ public class MemoryStore implements Store {
     private AtomicInteger maxId = new AtomicInteger(1);
 
     private MemoryStore() {
-        add(new User("User1", "Login1", "email@email.com"));
-        add(new User("User2", "Login2", "email@email.com"));
-        add(new User("User3", "Login3", "email@email.com"));
+        add(new User("User1", "Login1", "email@email.com", null));
+        add(new User("User2", "Login2", "email@email.com", null));
+        add(new User("User3", "Login3", "email@email.com", null));
     }
 
     public static MemoryStore getInstance() {
@@ -20,9 +20,10 @@ public class MemoryStore implements Store {
     }
 
     @Override
-    public synchronized boolean add(User u) {
+    public synchronized long add(User u) {
         u.setId(maxId.getAndIncrement());
-        return users.add(u);
+        users.add(u);
+        return 0;
     }
 
     @Override

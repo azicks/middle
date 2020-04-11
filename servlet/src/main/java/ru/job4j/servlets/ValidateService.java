@@ -1,17 +1,19 @@
 package ru.job4j.servlets;
 
-import java.util.HashMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 public class ValidateService {
     private static final ValidateService instance = new ValidateService();
-    private final Map<String, Function<Map<String, String[]>, Boolean>> dispatch = new HashMap<>();
     private final Store store = DBStore.getInstance();
+    private static final Logger log = LogManager.getLogger(ValidateService.class);
 
     private ValidateService() {
-        init();
     }
 
     public static ValidateService getInstance() {
@@ -26,53 +28,39 @@ public class ValidateService {
         return store.findById(id);
     }
 
-    public boolean dispatch(Map<String, String[]> parameters) {
-        String[] action = parameters.get("action");
-        if (action == null || dispatch.get(action[0]) == null) {
+    public long addUser(String name, String login, String email, String imageFile) {
+        if ((name == null || login == null || email == null) || imageFile == null) {
+            return -1;
+        }
+        return store.add(new User(name, login, email, imageFile));
+    }
+
+
+    public boolean updateUser(String id, String name, String login, String email) {
+        if ((name == null || login == null || email == null || id == null)) {
             return false;
         }
-        return dispatch.get(action[0]).apply(parameters);
+        User user = store.findById(Integer.parseInt(id));
+        user.setName(name);
+        user.setLogin(login);
+        user.setEmail(email);
+        return store.update(user);
     }
 
-    private Function<Map<String, String[]>, Boolean> addUser() {
-        return parameters -> {
-            String[] name = parameters.get("name");
-            String[] login = parameters.get("login");
-            String[] email = parameters.get("email");
-            if ((name == null || login == null || email == null)) {
-                return false;
+    public boolean deleteUser(final String id, final String path) {
+        if (id == null) {
+            return false;
+        }
+        File f = new File(path);
+        String pattern = id + "_(.*)";
+        final File[] files = f.listFiles((dir, name) -> name.matches(pattern));
+        if (files != null) {
+            for (final File file : files) {
+                if (!file.delete()) {
+                    log.error("Can't remove " + file.getAbsolutePath());
+                }
             }
-            return store.add(new User(name[0], login[0], email[0]));
-        };
-    }
-
-    private Function<Map<String, String[]>, Boolean> updateUser() {
-        return parameters -> {
-            String[] id = parameters.get("id");
-            String[] name = parameters.get("name");
-            String[] login = parameters.get("login");
-            String[] email = parameters.get("email");
-            if ((name == null || login == null || email == null || id == null)) {
-                return false;
-            }
-            User user = new User(Integer.parseInt(id[0]), name[0], login[0], email[0]);
-            return store.update(user);
-        };
-    }
-
-    private Function<Map<String, String[]>, Boolean> deleteUser() {
-        return parameters -> {
-            String[] id = parameters.get("id");
-            if (id == null) {
-                return false;
-            }
-            return store.delete(Integer.parseInt(id[0]));
-        };
-    }
-
-    private void init() {
-        dispatch.put("add", addUser());
-        dispatch.put("update", updateUser());
-        dispatch.put("delete", deleteUser());
+        }
+        return store.delete(Integer.parseInt(id));
     }
 }
