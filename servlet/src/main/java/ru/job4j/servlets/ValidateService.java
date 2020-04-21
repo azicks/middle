@@ -3,14 +3,9 @@ package ru.job4j.servlets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.nio.file.Path;
-import java.util.List;
-
 public class ValidateService {
     private static final ValidateService instance = new ValidateService();
-    private final Store store = DBStore.getInstance();
+    private final UserStorage userStorage = UserStorage.getInstance();
     private static final Logger log = LogManager.getLogger(ValidateService.class);
 
     private ValidateService() {
@@ -20,47 +15,27 @@ public class ValidateService {
         return instance;
     }
 
-    public List<User> getUsers() {
-        return store.findAll();
-    }
-
-    public User getUser(int id) {
-        return store.findById(id);
-    }
-
-    public long addUser(String name, String login, String email, String imageFile) {
-        if ((name == null || login == null || email == null) || imageFile == null) {
+    public long addUser(String name, String login, String password, String email, String imageFile, String role) {
+        if ((name == null || login == null || password == null || email == null) || imageFile == null || role == null) {
+            log.error("Null field while creating user");
             return -1;
         }
-        return store.add(new User(name, login, email, imageFile));
+        return userStorage.add(name, login, password, email, imageFile, Role.getRole(role));
     }
 
-
-    public boolean updateUser(String id, String name, String login, String email) {
-        if ((name == null || login == null || email == null || id == null)) {
+    public boolean updateUser(String id, String name, String login, String email, String  role) {
+        if ((name == null || login == null || email == null || id == null || role == null)) {
+            log.error("Null field while updating user");
             return false;
         }
-        User user = store.findById(Integer.parseInt(id));
-        user.setName(name);
-        user.setLogin(login);
-        user.setEmail(email);
-        return store.update(user);
+        return userStorage.update(id, name, login, email, Role.getRole(role));
     }
 
     public boolean deleteUser(final String id, final String path) {
         if (id == null) {
+            log.error("Null id while deleting user");
             return false;
         }
-        File f = new File(path);
-        String pattern = id + "_(.*)";
-        final File[] files = f.listFiles((dir, name) -> name.matches(pattern));
-        if (files != null) {
-            for (final File file : files) {
-                if (!file.delete()) {
-                    log.error("Can't remove " + file.getAbsolutePath());
-                }
-            }
-        }
-        return store.delete(Integer.parseInt(id));
+        return userStorage.delete(id, path);
     }
 }

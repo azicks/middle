@@ -1,4 +1,6 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.store;
+
+import ru.job4j.servlets.User;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -10,9 +12,6 @@ public class MemoryStore implements Store {
     private AtomicInteger maxId = new AtomicInteger(1);
 
     private MemoryStore() {
-        add(new User("User1", "Login1", "email@email.com", null));
-        add(new User("User2", "Login2", "email@email.com", null));
-        add(new User("User3", "Login3", "email@email.com", null));
     }
 
     public static MemoryStore getInstance() {
@@ -24,6 +23,16 @@ public class MemoryStore implements Store {
         u.setId(maxId.getAndIncrement());
         users.add(u);
         return 0;
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        for (User u : users) {
+            if (login.equals(u.getLogin())) {
+                return u;
+            }
+        }
+        return null;
     }
 
     @Override

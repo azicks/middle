@@ -1,4 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="ru.job4j.servlets.Role" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +20,15 @@
     <div>
         <label>Email: <input type="text" name="email" value="${user.email}"></label>
     </div>
+    <c:if test="${sessionScope.role.equals(Role.ADMIN)}">
+        <div>
+            <select name="role">
+                <c:forEach items="${roles}" var="role">
+                    <option value="${role}">${role}</option>
+                </c:forEach>
+            </select>
+        </div>
+    </c:if>
     <div>
         <input type="hidden" name="id" value="${user.id}">
     </div>

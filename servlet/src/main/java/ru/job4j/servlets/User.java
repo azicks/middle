@@ -10,9 +10,11 @@ public class User {
     private int id;
     private String name;
     private String login;
+    private String password;
     private String email;
-    private String imagePath;
+    private String imageFile;
     private Timestamp createDate;
+    private Role role;
 
     public void setName(String name) {
         this.name = name;
@@ -26,29 +28,36 @@ public class User {
         this.email = email;
     }
 
-    public User(int id, String name, String login, String email) {
+    public User(int id,
+                String name,
+                String login,
+                String password,
+                String email,
+                String imageFile,
+                Timestamp created,
+                Role role) {
         this.id = id;
         this.name = name;
         this.login = login;
+        this.password = password;
         this.email = email;
-        this.createDate = new Timestamp(new Date().getTime());
-    }
-
-    public User(int id, String name, String login, String email, String imagePath, Timestamp created) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.email = email;
-        this.imagePath = imagePath;
+        this.imageFile = imageFile;
         this.createDate = created;
+        this.role = role;
     }
 
-    public User(String name, String login, String email, String imagePath) {
+    public User(String name, String login, String password, String email, String imageFile, Role role) {
         this.name = name;
         this.login = login;
+        this.password = password;
         this.email = email;
-        this.imagePath = imagePath;
+        this.imageFile = imageFile;
         this.createDate = new Timestamp(new Date().getTime());
+        this.role = role;
+    }
+
+    public boolean isRoot() {
+        return login.equals("root");
     }
 
     public int getId() {
@@ -63,16 +72,16 @@ public class User {
         return login;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
     public String getImageFile() {
-        return FilenameUtils.getName(imagePath);
+        return imageFile;
     }
 
     public Timestamp getCreateDate() {
@@ -81,6 +90,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return this.role;
     }
 
     @Override

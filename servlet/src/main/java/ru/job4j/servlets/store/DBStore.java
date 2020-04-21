@@ -1,8 +1,10 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.servlets.Role;
+import ru.job4j.servlets.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,25 +38,27 @@ public class DBStore implements Store {
 
     @Override
     public long add(User u) {
-        int userId = -1;
+        int userId;
         try (Connection connection = source.getConnection();
              PreparedStatement pst = connection.prepareStatement(
-                     "insert into users (name, login, email, image, created) values (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                     "insert into users (name, login, password, email, image, created, role) values (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, u.getName());
             pst.setString(2, u.getLogin());
-            pst.setString(3, u.getEmail());
-            pst.setString(4, u.getImagePath());
-            pst.setTimestamp(5, u.getCreateDate());
+            pst.setString(3, u.getPassword());
+            pst.setString(4, u.getEmail());
+            pst.setString(5, u.getImageFile());
+            pst.setTimestamp(6, u.getCreateDate());
+            pst.setString(7, u.getRole().value());
             pst.executeUpdate();
             ResultSet insertedUser = pst.getGeneratedKeys();
             insertedUser.next();
             userId = insertedUser.getInt("id");
             u.setId(userId);
+            log.trace(String.format("%s added", u));
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
-            return -1;
+            userId = -1;
         }
-        log.trace(String.format("%s added", u));
         return userId;
     }
 
@@ -63,11 +67,12 @@ public class DBStore implements Store {
         boolean result = false;
         try (Connection connection = source.getConnection();
              PreparedStatement pst = connection.prepareStatement(
-                     "UPDATE users SET name = ?, login = ?, email = ? WHERE id = ?")) {
+                     "UPDATE users SET name = ?, login = ?, email = ?, role = ? WHERE id = ?")) {
             pst.setString(1, u.getName());
             pst.setString(2, u.getLogin());
             pst.setString(3, u.getEmail());
-            pst.setInt(4, u.getId());
+            pst.setString(4, u.getRole().value());
+            pst.setInt(5, u.getId());
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
                 result = true;
@@ -86,11 +91,13 @@ public class DBStore implements Store {
              PreparedStatement pst = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
             pst.setInt(1, id);
             int affectedRows = pst.executeUpdate();
-            result = affectedRows > 0;
+            if (affectedRows > 0) {
+                result = true;
+                log.trace(String.format("User with id %d removed", id));
+            }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
-        log.trace(String.format("User with id %d removed", id));
         return result;
     }
 
@@ -105,9 +112,11 @@ public class DBStore implements Store {
                         users.getInt("id"),
                         users.getString("name"),
                         users.getString("login"),
+                        users.getString("password"),
                         users.getString("email"),
                         users.getString("image"),
-                        users.getTimestamp("created"));
+                        users.getTimestamp("created"),
+                        Role.getRole(users.getString("role")));
                 result.add(user);
             }
         } catch (SQLException e) {
@@ -128,9 +137,35 @@ public class DBStore implements Store {
                         users.getInt("id"),
                         users.getString("name"),
                         users.getString("login"),
+                        users.getString("password"),
                         users.getString("email"),
                         users.getString("image"),
-                        users.getTimestamp("created"));
+                        users.getTimestamp("created"),
+                        Role.getRole(users.getString("role")));
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage(), e);
+        }
+        return user;
+    }
+
+    @Override
+    public User findByLogin(final String login) {
+        User user = null;
+        try (Connection connection = source.getConnection();
+             PreparedStatement pst = connection.prepareStatement("SELECT * FROM users WHERE login = ?")) {
+            pst.setString(1, login);
+            ResultSet users = pst.executeQuery();
+            if (users.next()) {
+                user = new User(
+                        users.getInt("id"),
+                        users.getString("name"),
+                        users.getString("login"),
+                        users.getString("password"),
+                        users.getString("email"),
+                        users.getString("image"),
+                        users.getTimestamp("created"),
+                        Role.getRole(users.getString("role")));
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);

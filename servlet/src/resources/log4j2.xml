@@ -10,7 +10,7 @@
     </Appenders>
     <Loggers>
         <Root level="trace">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
         </Root>
         <Logger name="ru.job4j.servlets" level="trace" additivity="false">
             <AppenderRef ref="File"/>

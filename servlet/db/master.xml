@@ -22,5 +22,22 @@
             <column name="image" type="varchar(255)"/>
         </addColumn>
     </changeSet>
-
+    <changeSet id="add-column-password-1" author="me">
+        <addColumn tableName="users">
+            <column name="password" type="varchar(30)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="add-column-role-1" author="me">
+        <addColumn tableName="users">
+            <column name="role" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="add-root-user-1" author="me">
+        <insert tableName="users">
+            <column name="name" value="root"/>
+            <column name="login" value="root"/>
+            <column name="password" value="root"/>
+            <column name="role" value="Administrator"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

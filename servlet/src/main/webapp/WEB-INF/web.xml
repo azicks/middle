@@ -5,20 +5,27 @@
         xmlns="http://java.sun.com/xml/ns/javaee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.job4j.servlets.controllers.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
-    <display-name>Servlet application</display-name>
-    <servlet>
-        <servlet-name>EchoServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.EchoServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EchoServlet</servlet-name>
-        <url-pattern>/echo</url-pattern>
-    </servlet-mapping>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>ru.job4j.servlets.controllers.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/create</url-pattern>
+    </filter-mapping>
 
     <servlet>
         <servlet-name>UsersController</servlet-name>
-        <servlet-class>ru.job4j.servlets.UsersController</servlet-class>
+        <servlet-class>ru.job4j.servlets.controllers.UsersController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -28,11 +35,21 @@
 
     <servlet>
         <servlet-name>CreateUserController</servlet-name>
-        <servlet-class>ru.job4j.servlets.CreateUserController</servlet-class>
+        <servlet-class>ru.job4j.servlets.controllers.CreateUserController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>CreateUserController</servlet-name>
         <url-pattern>/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignInController</servlet-name>
+        <servlet-class>ru.job4j.servlets.controllers.SignInController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SignInController</servlet-name>
+        <url-pattern>/signin</url-pattern>
     </servlet-mapping>
 </web-app>
