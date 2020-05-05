@@ -14,6 +14,16 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <script>
+        function validate() {
+            var name = $('#name').val();
+            var surname = $('#surname').val();
+            if (name == '' || surname == '') {
+                alert('Заполните имя и фамилию');
+            }
+            return false;
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -42,8 +52,10 @@
                 Описание:<br>
                 <textarea class="form-control" rows="3"></textarea>
             </div>
+            <button type="button" class="btn btn-primary" onclick="validate();">OK</button>
         </form>
     </div>
+    <br>
     <div class="row">
         <table style="width: auto;" class="table table-bordered table-striped">
             <thead>
