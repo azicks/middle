@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <form>
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input id="name" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="surname">Фамилия:</label>
+                <input id="surname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Пол:</label>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="m" name="sex">
+                    <label for="m" class="custom-control-label">М</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="f" name="sex">
+                    <label for="f" class="custom-control-label">Ж</label>
+                </div>
+            </div>
+            <div class="form-group">
+                Описание:<br>
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <table style="width: auto;" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>Иван</td>
+                <td>Иванов</td>
+            </tr>
+            <tr>
+                <td>Петр</td>
+                <td>Петров</td>
+            </tr>
+            <tr>
+                <td>Сидр</td>
+                <td>Сидоров</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
