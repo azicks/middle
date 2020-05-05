@@ -26,7 +26,7 @@
     </tr>
 </table>
 <c:if test="${users.size() > 0}">
-    <table border="1" cellpadding="5">
+    <table border="1" cellpadding="5" cellspacing="0">
         <c:forEach items="${users}" var="user">
             <tr>
                 <td><c:out value="${user.id}"/>
