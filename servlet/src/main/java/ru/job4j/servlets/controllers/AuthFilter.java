@@ -16,14 +16,19 @@ public class AuthFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        HttpSession session = req.getSession();
-        log.trace(String.format("%s\n%s\n%s\n%s\n", session.toString(), req.getRequestURI(), session.getAttribute("login"), session.getAttribute("role")));
-        if (!req.getRequestURI().contains("/signin")) {
-            if (session.getAttribute("login") == null) {
-                res.sendRedirect("/signin");
-                return;
+        String path = req.getRequestURI();
+        if (path.contains("/greet") || path.contains(".html")) {
+            chain.doFilter(req, res);
+        } else {
+            HttpSession session = req.getSession();
+            //log.trace(String.format("%s\n%s\n%s\n%s\n", session.toString(), req.getRequestURI(), session.getAttribute("login"), session.getAttribute("role")));
+            if (!req.getRequestURI().contains("/signin")) {
+                if (session.getAttribute("login") == null) {
+                    res.sendRedirect("/signin");
+                    return;
+                }
             }
+            chain.doFilter(req, res);
         }
-        chain.doFilter(req, res);
     }
 }
