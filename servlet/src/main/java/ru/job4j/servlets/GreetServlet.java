@@ -1,5 +1,7 @@
 package ru.job4j.servlets;
 
+import org.json.simple.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +12,7 @@ import java.io.PrintWriter;
 public class GreetServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/plain");
+        resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Access-Control-Allow-Origin", "*");
         String name = req.getParameter("name");
@@ -20,6 +22,8 @@ public class GreetServlet extends HttpServlet {
             writer.write("Empty input");
             return;
         }
-        writer.write("Nice to meet you, " + name);
+        JSONObject answer = new JSONObject();
+        answer.put("answer", String.format("Nice to meet you, %s", name));
+        writer.write(answer.toJSONString());
     }
 }

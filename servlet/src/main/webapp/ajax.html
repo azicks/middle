@@ -17,19 +17,21 @@
             crossorigin="anonymous"></script>
     <script>
         function sendGreeting() {
-            var str = 'name=' + $('#exampleInputEmail1').val();
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8080/greet',
-                data: str,
-                dataType: 'text',
-                success: function (msg) {
-                    $('#txt').text(msg);
-                },
-                error: function (xhr, error) {
-                    alert(error + ': ' + xhr.responseText);
-                }
-            });
+            var name = $('#exampleInputEmail1').val();
+            $(
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/greet',
+                    data: {'name': name},
+                    dataType: 'json',
+                    success: function (resp) {
+                        $('#txt').text(resp.answer);
+                    },
+                    error: function (xhr, error) {
+                        alert(error + ': ' + xhr.responseText);
+                    }
+                })
+            );
         }
     </script>
 </head>
