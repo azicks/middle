@@ -45,6 +45,8 @@ public class CreateUserController extends HttpServlet {
         String email = null;
         String imageFile = null;
         String role = null;
+        String country = null;
+        String city = null;
         DiskFileItemFactory factory = new DiskFileItemFactory();
         File tempDir = (File) getServletContext().getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(tempDir);
@@ -60,6 +62,8 @@ public class CreateUserController extends HttpServlet {
                     password = "password".equals(item.getFieldName()) ? item.getString("utf-8") : password;
                     email = "email".equals(item.getFieldName()) ? item.getString("utf-8") : email;
                     role = "role".equals(item.getFieldName()) ? item.getString("utf-8") : role;
+                    country = "country".equals(item.getFieldName()) ? item.getString("utf-8") : country;
+                    city = "city".equals(item.getFieldName()) ? item.getString("utf-8") : city;
                 } else {
                     imageFile = item.getName();
                     if (!imageFile.isEmpty()) {
@@ -72,7 +76,7 @@ public class CreateUserController extends HttpServlet {
                     }
                 }
             }
-            long id = service.addUser(name, login, password, email, imageFile, role);
+            long id = service.addUser(name, login, password, email, imageFile, role, country, city);
             if (id == -2) {
                 String message = String.format("User with login %s already exists", login);
                 log.trace(message);

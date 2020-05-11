@@ -42,8 +42,9 @@ public class UserStorage {
         return store.findByLogin(login);
     }
 
-    public long add(String name, String login, String password, String email, String imageFile, Role role) {
-        User u = new User(name, login, password, email, imageFile, role);
+    public long add(String name, String login, String password, String email, String imageFile, Role role,
+                    String country, String city) {
+        User u = new User(name, login, password, email, imageFile, role, country, city);
         long userId;
         User existsUser = store.findByLogin(u.getLogin());
         if (existsUser != null) {
@@ -55,7 +56,7 @@ public class UserStorage {
         return userId;
     }
 
-    public boolean update(String id, String name, String login, String email, Role role) {
+    public boolean update(String id, String name, String login, String email, Role role, String country, String city) {
         User user = store.findById(Integer.parseInt(id));
         if (user.getLogin().equals("root") || "root".equals(login)) {
             return false;
@@ -64,6 +65,8 @@ public class UserStorage {
         user.setLogin(login);
         user.setEmail(email);
         user.setRole(role);
+        user.setCountry(country);
+        user.setCity(city);
         return store.update(user);
     }
 

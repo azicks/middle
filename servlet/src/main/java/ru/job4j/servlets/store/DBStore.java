@@ -8,7 +8,9 @@ import ru.job4j.servlets.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DBStore implements Store {
     private static final BasicDataSource source = new BasicDataSource();
@@ -41,7 +43,7 @@ public class DBStore implements Store {
         int userId;
         try (Connection connection = source.getConnection();
              PreparedStatement pst = connection.prepareStatement(
-                     "insert into users (name, login, password, email, image, created, role) values (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                     "insert into users (name, login, password, email, image, created, role, country, city) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, u.getName());
             pst.setString(2, u.getLogin());
             pst.setString(3, u.getPassword());
@@ -49,6 +51,8 @@ public class DBStore implements Store {
             pst.setString(5, u.getImageFile());
             pst.setTimestamp(6, u.getCreateDate());
             pst.setString(7, u.getRole().value());
+            pst.setString(8, u.getCountry());
+            pst.setString(9, u.getCity());
             pst.executeUpdate();
             ResultSet insertedUser = pst.getGeneratedKeys();
             insertedUser.next();
@@ -67,12 +71,14 @@ public class DBStore implements Store {
         boolean result = false;
         try (Connection connection = source.getConnection();
              PreparedStatement pst = connection.prepareStatement(
-                     "UPDATE users SET name = ?, login = ?, email = ?, role = ? WHERE id = ?")) {
+                     "UPDATE users SET name = ?, login = ?, email = ?, role = ?, country = ?, city = ? WHERE id = ?")) {
             pst.setString(1, u.getName());
             pst.setString(2, u.getLogin());
             pst.setString(3, u.getEmail());
             pst.setString(4, u.getRole().value());
-            pst.setInt(5, u.getId());
+            pst.setString(5, u.getCountry());
+            pst.setString(6, u.getCity());
+            pst.setInt(7, u.getId());
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
                 result = true;
@@ -116,8 +122,29 @@ public class DBStore implements Store {
                         users.getString("email"),
                         users.getString("image"),
                         users.getTimestamp("created"),
-                        Role.getRole(users.getString("role")));
+                        Role.getRole(users.getString("role")),
+                        users.getString("country"),
+                        users.getString("city"));
                 result.add(user);
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public Set<String> findAllCities() {
+        Set<String> result = new HashSet<>();
+        try (Connection connection = source.getConnection();
+             Statement st = connection.createStatement()) {
+            ResultSet cities = st.executeQuery("SELECT city FROM users");
+            while (cities.next()) {
+                String city = cities.getString("city");
+                if (city == null || city.isEmpty()) {
+                    continue;
+                }
+                result.add(city);
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
@@ -141,7 +168,9 @@ public class DBStore implements Store {
                         users.getString("email"),
                         users.getString("image"),
                         users.getTimestamp("created"),
-                        Role.getRole(users.getString("role")));
+                        Role.getRole(users.getString("role")),
+                        users.getString("country"),
+                        users.getString("city"));
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
@@ -165,7 +194,9 @@ public class DBStore implements Store {
                         users.getString("email"),
                         users.getString("image"),
                         users.getTimestamp("created"),
-                        Role.getRole(users.getString("role")));
+                        Role.getRole(users.getString("role")),
+                        users.getString("country"),
+                        users.getString("city"));
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);

@@ -2,11 +2,18 @@ package ru.job4j.servlets.store;
 
 import ru.job4j.servlets.User;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryStore implements Store {
+    @Override
+    public Set<String> findAllCities() {
+        return null;
+    }
+
     private static final MemoryStore instance = new MemoryStore();
     private final List<User> users = new CopyOnWriteArrayList<>();
     private AtomicInteger maxId = new AtomicInteger(1);

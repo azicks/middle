@@ -40,4 +40,14 @@
             <column name="role" value="Administrator"/>
         </insert>
     </changeSet>
+    <changeSet id="add-column-country-1" author="me">
+        <addColumn tableName="users">
+            <column name="country" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="add-column-city-1" author="me">
+        <addColumn tableName="users">
+            <column name="city" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

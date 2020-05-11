@@ -2,6 +2,9 @@ package ru.job4j.servlets;
 
 import org.apache.commons.io.FilenameUtils;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSessionContext;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
@@ -15,6 +18,8 @@ public class User {
     private String imageFile;
     private Timestamp createDate;
     private Role role;
+    private String country;
+    private String city;
 
     public void setName(String name) {
         this.name = name;
@@ -35,7 +40,9 @@ public class User {
                 String email,
                 String imageFile,
                 Timestamp created,
-                Role role) {
+                Role role,
+                String country,
+                String city) {
         this.id = id;
         this.name = name;
         this.login = login;
@@ -44,9 +51,11 @@ public class User {
         this.imageFile = imageFile;
         this.createDate = created;
         this.role = role;
+        this.city = city;
+        this.country = country;
     }
-
-    public User(String name, String login, String password, String email, String imageFile, Role role) {
+    public User(String name, String login, String password, String email, String imageFile, Role role,
+                String country, String city) {
         this.name = name;
         this.login = login;
         this.password = password;
@@ -54,10 +63,19 @@ public class User {
         this.imageFile = imageFile;
         this.createDate = new Timestamp(new Date().getTime());
         this.role = role;
+        this.city = city;
+        this.country = country;
     }
 
     public boolean isRoot() {
         return login.equals("root");
+    }
+
+    public boolean hasImage(String path) {
+        if (imageFile == null || imageFile.isEmpty()) {
+            return false;
+        }
+        return new File(path + id + "_" + imageFile).exists();
     }
 
     public int getId() {
@@ -86,6 +104,14 @@ public class User {
 
     public Timestamp getCreateDate() {
         return createDate;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public void setId(int id) {
@@ -124,5 +150,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, login, email, createDate);
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

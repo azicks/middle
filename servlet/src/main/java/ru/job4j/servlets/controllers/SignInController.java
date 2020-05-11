@@ -2,6 +2,7 @@ package ru.job4j.servlets.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 import ru.job4j.servlets.User;
 import ru.job4j.servlets.UserStorage;
 
@@ -33,11 +34,11 @@ public class SignInController extends HttpServlet {
             session.setAttribute("role", u.getRole());
             session.setAttribute("name", u.getName());
             log.trace(String.format("User authentificated  %s %s %s \n %s", login, u.getName(), u.getRole(), session.toString()));
-            resp.sendRedirect("/");
+            resp.setHeader("AUTH_OK", "1");
         } else {
             log.trace(String.format("Invalid credentials %s %s", login, password));
-            req.setAttribute("error", "Invalid credentials");
-            doGet(req, resp);
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getWriter().write("Invalid credentials");
         }
     }
 }

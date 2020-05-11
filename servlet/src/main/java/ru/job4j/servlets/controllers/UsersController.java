@@ -27,7 +27,9 @@ public class UsersController extends HttpServlet {
         if (isRequestForImage(req)) {
             sendImage(req, resp);
         } else {
+            String path = getServletContext().getRealPath("/bin/images/");
             req.setAttribute("users", userStorage.findAll());
+            req.setAttribute("path", path);
             req.getRequestDispatcher("/WEB-INF/views/list.jsp").forward(req, resp);
         }
     }
@@ -48,16 +50,6 @@ public class UsersController extends HttpServlet {
             req.setAttribute("roles", userStorage.getUserRoles());
             req.getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(req, resp);
         }
-        if ("gotoRemoveView".equals(action)) {
-            int id = Integer.parseInt(req.getParameter("id"));
-            User u = userStorage.findById(id);
-            if (u.getLogin().equals("root")) {
-                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-                return;
-            }
-            req.setAttribute("id", req.getParameter("id"));
-            req.getRequestDispatcher("/WEB-INF/views/delete.jsp").forward(req, resp);
-        }
 
         if ("delete".equals(action)) {
             String path = getServletContext().getRealPath("/bin/images/");
@@ -72,6 +64,8 @@ public class UsersController extends HttpServlet {
             String login = req.getParameter("login");
             String email = req.getParameter("email");
             String role = req.getParameter("role");
+            String country = req.getParameter("country");
+            String city = req.getParameter("city");
             //if try to modify another user and not admin
             if (!Role.ADMIN.equals(session.getAttribute("role")) && current.getId() != Integer.parseInt(id)) {
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -84,7 +78,7 @@ public class UsersController extends HttpServlet {
                     }
                     session.setAttribute("role", Role.getRole(role));
                 }
-                service.updateUser(id, name, login, email, role);
+                service.updateUser(id, name, login, email, role, country, city);
             }
         }
         if ("logout".equals(action)) {
@@ -101,10 +95,12 @@ public class UsersController extends HttpServlet {
         resp.setHeader("Content-Disposition", String.format("attachment; filename=%s", image));
         String path = getServletContext().getRealPath("/bin/images/");
         File file = new File(path + id + "_" + image);
-        try (FileInputStream in = new FileInputStream(file)) {
-            resp.getOutputStream().write(in.readAllBytes());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
+        if (file.exists()) {
+            try (FileInputStream in = new FileInputStream(file)) {
+                resp.getOutputStream().write(in.readAllBytes());
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
         }
         return resp;
     }
