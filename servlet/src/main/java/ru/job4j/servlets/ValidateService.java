@@ -23,19 +23,29 @@ public class ValidateService {
                         String role,
                         String country,
                         String city) {
-        if ((name == null || login == null || password == null || email == null)
+        if (name == null || login == null || password == null || email == null
                 || imageFile == null || role == null || country == null || city == null) {
             log.error("Null field while creating user");
             return -1;
         }
+
+        if (name.isEmpty() || login.isEmpty() || password.isEmpty()) {
+            log.error("Empty field while creating user");
+            return -1;
+        }
+
         return userStorage.add(name, login, password, email, imageFile, Role.getRole(role), country, city);
     }
 
     public boolean updateUser(String id, String name, String login, String email,
                               String  role, String country, String city) {
-        if ((name == null || login == null || email == null || id == null
-                || role == null || country == null || city == null)) {
+        if (name == null || login == null || email == null || id == null
+                || role == null || country == null || city == null) {
             log.error("Null field while updating user");
+            return false;
+        }
+        if (name.isEmpty() || login.isEmpty()) {
+            log.error("Empty field while updating user");
             return false;
         }
         return userStorage.update(id, name, login, email, Role.getRole(role), country, city);

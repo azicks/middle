@@ -35,15 +35,15 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input class="form-control" id="name" type="text" name="name">
+                        <input class="form-control" id="name" type="text" name="name" required="required">
                     </div>
                     <div class="form-group">
                         <label for="login">Login</label>
-                        <input class="form-control" id="login" type="text" name="login">
+                        <input class="form-control" id="login" type="text" name="login" required="required">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input class="form-control" id="password" type="password" name="password">
+                        <input class="form-control" id="password" type="password" name="password" required="required">
                     </div>
                 </div>
                 <div class="col-md">

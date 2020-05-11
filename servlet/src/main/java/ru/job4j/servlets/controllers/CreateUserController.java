@@ -83,6 +83,10 @@ public class CreateUserController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_CONFLICT, message);
                 return;
             }
+            if (id == -1) {
+                resp.sendError(HttpServletResponse.SC_CONFLICT, "Empty field");
+                return;
+            }
             if (id > 0) {
                 renameImageFile(String.valueOf(id), path, imageFile);
             }

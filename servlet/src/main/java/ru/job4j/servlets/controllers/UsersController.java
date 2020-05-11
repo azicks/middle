@@ -78,7 +78,10 @@ public class UsersController extends HttpServlet {
                     }
                     session.setAttribute("role", Role.getRole(role));
                 }
-                service.updateUser(id, name, login, email, role, country, city);
+                if (!service.updateUser(id, name, login, email, role, country, city)) {
+                    resp.sendError(HttpServletResponse.SC_CONFLICT, "Empty field");
+                    return;
+                }
             }
         }
         if ("logout".equals(action)) {

@@ -35,11 +35,11 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input class="form-control" id="name" type="text" name="name" value="${user.name}">
+                        <input class="form-control" id="name" type="text" name="name" value="${user.name}" required="required">
                     </div>
                     <div class="form-group">
                         <label for="login">Login</label>
-                        <input class="form-control" id="login" type="text" name="login" value="${user.login}">
+                        <input class="form-control" id="login" type="text" name="login" value="${user.login}" required="required">
                     </div>
                 </div>
                 <div class="col-md">
