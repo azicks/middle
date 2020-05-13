@@ -1,8 +1,9 @@
 package ru.job4j.di;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 public class StartUI {
     private Store store;
-    private Context context = Context.getInstance();
 
     public StartUI(Store store) {
         this.store = store;
@@ -13,7 +14,8 @@ public class StartUI {
     }
 
     public void print() {
-        ConsoleInput ci = context.get(ConsoleInput.class);
+        AnnotationConfigApplicationContext context = ApplicationContextProvider.getApplicationContext();
+        ConsoleInput ci = context.getBean(ConsoleInput.class);
         for (String value : store.getAll()) {
             ci.print(value);
         }
