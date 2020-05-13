@@ -1,7 +1,9 @@
 package ru.job4j.di;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StartUI {
     private Store store;
 

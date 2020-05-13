@@ -1,11 +1,11 @@
 package ru.job4j.di;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-/**
- * @since 11.12.2018
- */
+@Component
 public class ConsoleInput implements Input {
 
     private Consumer<String> output = System.out::print;
