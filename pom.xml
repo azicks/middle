@@ -12,6 +12,7 @@
     <modules>
         <module>multithreading</module>
         <module>servlet</module>
+        <module>spring</module>
     </modules>
 
     <properties>
